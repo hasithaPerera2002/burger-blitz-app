@@ -6,9 +6,12 @@ import '../const/colors.dart';
 
 class MyButton extends StatelessWidget {
   final String lableText;
+  final Null Function() onPressed;
+
   const MyButton({
     required this.lableText,
     super.key,
+    required this.onPressed,
   });
 
   @override
@@ -28,10 +31,12 @@ class MyButton extends StatelessWidget {
               ),
             ),
           ),
-          onPressed: () {},
-          child: Text(
-            lableText,
-          ),
+          onPressed: onPressed,
+          child: Text(lableText,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              )),
         ),
       ),
     );
