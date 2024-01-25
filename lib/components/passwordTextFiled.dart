@@ -4,23 +4,43 @@ import 'package:flutter/material.dart';
 
 import '../const/colors.dart';
 
-class TextField1 extends StatelessWidget {
+class PasswordTextField extends StatefulWidget {
   final String textLabel;
-  final controller;
+  final TextEditingController controller;
 
-  const TextField1({
-    super.key,
+  PasswordTextField({
+    Key? key, // Use Key? for optional key parameter
     required this.textLabel,
     required this.controller,
-  });
+  }) : super(key: key);
 
+  @override
+  State<PasswordTextField> createState() => _PasswordTextFieldState();
+}
+
+class _PasswordTextFieldState extends State<PasswordTextField> {
+  var obscureText = true;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: TextField(
-        controller: controller,
+        obscureText: obscureText,
+        controller: widget.controller,
         decoration: InputDecoration(
+            suffixIcon: GestureDetector(
+              onTap: () {
+                setState(
+                  () {
+                    obscureText = !obscureText;
+                  },
+                );
+              },
+              child: Icon(
+                obscureText ? Icons.visibility : Icons.visibility_off,
+                color: kPrimary,
+              ),
+            ),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: kSecondary),
             ),
@@ -30,7 +50,7 @@ class TextField1 extends StatelessWidget {
             fillColor: Colors.grey.shade200,
             filled: true,
             label: Text(
-              textLabel,
+              widget.textLabel,
               style: TextStyle(
                 color: kPrimary,
                 fontSize: 15,

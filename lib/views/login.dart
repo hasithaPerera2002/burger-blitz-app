@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:burger_blitz/components/passwordTextFiled.dart';
 import 'package:burger_blitz/components/textField.dart';
 import 'package:flutter/material.dart';
 
@@ -20,13 +21,15 @@ class _HomePageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
+        title: Padding(
+          padding: const EdgeInsets.only(left: 40),
           child: Text(
             'Burger Blitz',
             style: TextStyle(
               color: kPrimary,
               fontWeight: FontWeight.bold,
               fontSize: 30,
+              fontFamily: 'Quicksand',
             ),
           ),
         ),
@@ -40,20 +43,18 @@ class _HomePageState extends State<LoginPage> {
             Text(
               'Welcome to Burger Blitz ',
               style: TextStyle(
-                color: kSecondary,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
+                  color: kSecondary,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  fontFamily: 'Quicksand'),
             ),
             SizedBox(height: 80),
             TextField1(
-              obscureText: false,
               textLabel: 'Username',
               controller: userNameController,
             ),
             SizedBox(height: 20),
-            TextField1(
-              obscureText: true,
+            PasswordTextField(
               textLabel: 'Password',
               controller: passwordController,
             ),
@@ -68,8 +69,9 @@ class _HomePageState extends State<LoginPage> {
                       'Forgot Password?',
                       style: TextStyle(
                         color: kSecondary,
-                        fontWeight: FontWeight.normal,
+                        fontWeight: FontWeight.bold,
                         fontSize: 15,
+                        fontFamily: 'Quicksand',
                       ),
                     ),
                   ),
@@ -89,14 +91,16 @@ class _HomePageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/signUp');
+                    },
                     child: Text(
                       'Don\'t have an account? Sign Up',
                       style: TextStyle(
-                        color: kSecondary,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 15,
-                      ),
+                          color: kSecondary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          fontFamily: 'Quicksand'),
                     ),
                   ),
                 ],
