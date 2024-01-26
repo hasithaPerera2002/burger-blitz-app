@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:burger_blitz/components/myButton.dart';
+import 'package:burger_blitz/components/my_button.dart';
 import 'package:burger_blitz/const/colors.dart';
 import 'package:flutter/material.dart';
 

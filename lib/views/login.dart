@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:burger_blitz/components/passwordTextFiled.dart';
+import 'package:burger_blitz/components/password_text_filed.dart';
 import 'package:burger_blitz/components/textField.dart';
 import 'package:flutter/material.dart';
 
-import '../components/myButton.dart';
+import '../components/my_button.dart';
 import '../const/colors.dart';
 
 class LoginPage extends StatefulWidget {
@@ -86,26 +86,28 @@ class _HomePageState extends State<LoginPage> {
               },
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  TextButton(
-                    onPressed: () {
+                  GestureDetector(
+                    onTap: () {
                       Navigator.pushNamed(context, '/signUp');
                     },
                     child: Text(
                       'Don\'t have an account? Sign Up',
                       style: TextStyle(
-                          color: kSecondary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          fontFamily: 'Quicksand'),
+                        color: kSecondary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        fontFamily: 'Quicksand',
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),

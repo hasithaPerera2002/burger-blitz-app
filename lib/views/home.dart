@@ -1,9 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, prefer_final_fields, unused_field, avoid_print, use_key_in_widget_constructors
 
-import 'package:burger_blitz/components/burgerTile.dart';
+import 'package:burger_blitz/components/burger_tile.dart';
 import 'package:burger_blitz/const/colors.dart';
+import 'package:burger_blitz/service/burger_service.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+
+import '../model/burger.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key});
@@ -13,10 +15,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<void> apiCall() async {
-    http.Response response = await http
-        .get(Uri.parse('https://jsonplaceholder.typicode.com/todos/1'));
-    // Handle the response as needed
+  late Future<List<Burger>> _burgers = [] as Future<List<Burger>>;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // print('init state called');
+    loadBurgers();
+  }
+
+  loadBurgers() async {
+    try {
+      final burgers = await BurgerService().getBurgers();
+      setState(() {
+        _burgers = Future.value(burgers);
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -42,11 +62,28 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Container(
                 decoration: BoxDecoration(
-                  color: kTertiary,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 width: double.infinity,
-                child: BurgerTile(),
+                child: FutureBuilder<List<Burger>>(
+                  future: _burgers,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return BurgerTile(
+                            burger: snapshot.data![index],
+                          );
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('${snapshot.error}');
+                    }
+                    return const CircularProgressIndicator();
+                  },
+                ),
               ),
             ),
           ],

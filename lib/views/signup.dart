@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, library_private_types_in_public_api, prefer_const_constructors_in_immutables
 
-import 'package:burger_blitz/components/myButton.dart';
-import 'package:burger_blitz/components/passwordTextFiled.dart';
+import 'package:burger_blitz/components/my_button.dart';
+import 'package:burger_blitz/components/password_text_filed.dart';
 import 'package:burger_blitz/components/textField.dart';
 import 'package:flutter/material.dart';
 
@@ -160,21 +160,23 @@ class _SignUpState extends State<SignUp> {
               },
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/signIn');
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/login');
                     },
                     child: Text(
                       'Do you have an account? Sign In',
                       style: TextStyle(
-                          color: kSecondary,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          fontFamily: 'Quicksand'),
+                        color: kSecondary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                        fontFamily: 'Quicksand',
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
                 ],
