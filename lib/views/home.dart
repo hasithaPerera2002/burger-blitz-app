@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Future<List<Burger>> _burgers = [] as Future<List<Burger>>;
+  late Future<List<Burger>> _burgers;
   bool _isLoading = true;
 
   @override
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
       });
     } catch (e) {
       setState(() {
-        _isLoading = false;
+        _isLoading = true;
       });
     }
   }

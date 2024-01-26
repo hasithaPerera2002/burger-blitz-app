@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:burger_blitz/model/burger.dart';
 import 'package:burger_blitz/views/login.dart';
 import 'package:burger_blitz/views/starter.dart';
 import 'package:flutter/material.dart';
 
 import 'views/home.dart';
+import 'views/order.dart';
 import 'views/signup.dart';
 
 void main() {

@@ -1,17 +1,33 @@
-// ignore_for_file: prefer_const_constructors, avoid_print
+// ignore_for_file: prefer_const_constructors, avoid_print, library_private_types_in_public_api
 
 import 'package:burger_blitz/const/colors.dart';
 import 'package:burger_blitz/model/burger.dart';
 import 'package:flutter/material.dart';
 
-class BurgerTile extends StatelessWidget {
-  final Burger burger;
-  const BurgerTile({super.key, required this.burger});
+import '../views/order.dart';
 
-  getImage() {
-    String imagePathForUrl = burger.image.replaceAll('\\', '/');
+class BurgerTile extends StatefulWidget {
+  final Burger burger;
+  const BurgerTile({Key? key, required this.burger}) : super(key: key);
+
+  @override
+  _BurgerTileState createState() => _BurgerTileState();
+}
+
+class _BurgerTileState extends State<BurgerTile> {
+  @override
+  void initState() {
+    super.initState();
+    updateImageUrl();
+  }
+
+  void updateImageUrl() {
+    String imagePathForUrl = widget.burger.image.replaceAll('\\', '/');
     String newPort = "192.168.1.4:3000";
-    return imagePathForUrl.replaceFirst("localhost:3000", newPort);
+    setState(() {
+      widget.burger.image =
+          imagePathForUrl.replaceFirst("localhost:3000", newPort);
+    });
   }
 
   @override
@@ -24,22 +40,26 @@ class BurgerTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: ListTile(
-        leading: Container(
-          height: 250,
-          width: 70,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(
-              image: NetworkImage(getImage()),
-              fit: BoxFit.cover,
-            ),
-          ),
+        leading: Builder(
+          builder: (context) {
+            return Container(
+              height: 250,
+              width: 70,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: NetworkImage(widget.burger.image),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          },
         ),
         title: SizedBox(
           width: 150,
           height: 30, // Adjust the width as needed
           child: Text(
-            burger.name,
+            widget.burger.name,
             style: TextStyle(
                 fontSize: 15,
                 fontFamily: 'Quicksand',
@@ -48,7 +68,7 @@ class BurgerTile extends StatelessWidget {
           ),
         ),
         subtitle: Text(
-          'Rs ${burger.price}',
+          'Rs ${widget.burger.price}',
           style: TextStyle(
             fontSize: 13,
             fontFamily: 'Quicksand',
@@ -65,6 +85,11 @@ class BurgerTile extends StatelessWidget {
           child: Icon(Icons.arrow_forward_sharp),
           onPressed: () {
             print('tapped');
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => OrderPage(widget.burger),
+              ),
+            );
           },
         ),
         focusColor: Color.fromARGB(255, 215, 157, 157),

@@ -1,11 +1,11 @@
 class Burger {
   final String name;
-  final String image;
+  String image;
   final int price;
   final bool featured;
   final bool offered;
 
-  const Burger({
+  Burger({
     required this.name,
     required this.image,
     required this.price,
