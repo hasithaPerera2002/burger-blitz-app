@@ -32,3 +32,28 @@ To run the Flutter application, follow these steps:
 
    ```bash
    flutter pub get
+   ```
+   Connect a device or start an emulator.
+
+Run the app:
+
+   ```bash
+   flutter run
+   ```
+   This will launch the Burger Blitz Flutter application on your device or emulator.
+
+## For connect the API for this you have to make the http request changed 
+
+![WhatsApp Image 2024-01-27 at 11 19 51_fdf645aa](https://github.com/hasithaPerera2002/burger-blitz-app/assets/68593358/cefe8d4f-0cf8-4fca-b14e-4b0f10f64455)
+
+![WhatsApp Image 2024-01-27 at 11 19 52_0d19e392](https://github.com/hasithaPerera2002/burger-blitz-app/assets/68593358/9e4cc045-230d-488d-b9cf-0cae7a51d4d5)
+
+![WhatsApp Image 2024-01-27 at 11 19 52_eff1d10f](https://github.com/hasithaPerera2002/burger-blitz-app/assets/68593358/87077bd3-7680-484d-a938-27640dcd32f0)
+
+![WhatsApp Image 2024-01-27 at 11 25 03_211605ee](https://github.com/hasithaPerera2002/burger-blitz-app/assets/68593358/3fda30f9-4c43-4a17-8b80-6ff14862255f)
+
+
+
+
+
+
