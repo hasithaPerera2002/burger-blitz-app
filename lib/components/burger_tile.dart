@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, avoid_print, library_private_types_in_public_api
 
-import 'package:burger_blitz/const/colors.dart';
 import 'package:burger_blitz/model/burger.dart';
 import 'package:flutter/material.dart';
 
