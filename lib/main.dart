@@ -6,7 +6,6 @@ import 'package:burger_blitz/views/starter.dart';
 import 'package:flutter/material.dart';
 
 import 'views/home.dart';
-import 'views/order.dart';
 import 'views/signup.dart';
 
 void main() {
@@ -23,7 +22,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Burger Blitz',
       darkTheme: ThemeData.light(),
-      initialRoute: '/starter',
+      initialRoute: '/home',
       routes: {
         '/login': (context) => LoginPage(),
         '/home': (context) => HomePage(),

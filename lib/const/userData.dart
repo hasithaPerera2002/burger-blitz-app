@@ -1,1 +1,1 @@
-const kUserId = 'userId';
+String kUserId = 'userId';

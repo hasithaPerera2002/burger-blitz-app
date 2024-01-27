@@ -1,8 +1,10 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, library_private_types_in_public_api, prefer_const_constructors_in_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, library_private_types_in_public_api, prefer_const_constructors_in_immutables, avoid_print
 
 import 'package:burger_blitz/components/my_button.dart';
 import 'package:burger_blitz/components/password_text_filed.dart';
 import 'package:burger_blitz/components/textField.dart';
+import 'package:burger_blitz/model/user.dart';
+import 'package:burger_blitz/service/user_service.dart';
 import 'package:flutter/material.dart';
 
 import '../const/colors.dart';
@@ -155,7 +157,38 @@ class _SignUpState extends State<SignUp> {
                     !secondNameErr &&
                     !emailErr &&
                     !passwordErr) {
-                  Navigator.pushNamed(context, '/home');
+                  var flag = signUp(
+                      firstNameController.text,
+                      secondNameController.text,
+                      emailController.text,
+                      passwordController.text);
+                  if (flag != true) {
+                    Navigator.pushNamed(context, '/home');
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: kTertiary,
+                          title: Text('Notification'),
+                          content: Text(
+                            'User already exists',
+                            style: TextStyle(
+                              fontFamily: 'Quicksand',
+                            ),
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/signUp');
+                              },
+                              child: Text('OK'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
                 }
               },
             ),
@@ -186,5 +219,19 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  Future<bool> signUp(
+      String fname, String lname, String email, String password) async {
+    dynamic saveUserResult = await UserService().saveUser(
+        User(fname: fname, lname: lname, email: email, password: password));
+
+    if (saveUserResult != null && saveUserResult is bool && saveUserResult) {
+      print('user saved');
+      return true;
+    } else {
+      print('user not saved');
+      return false;
+    }
   }
 }

@@ -1,7 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, unrelated_type_equality_checks, use_build_context_synchronously
 
 import 'package:burger_blitz/components/password_text_filed.dart';
 import 'package:burger_blitz/components/textField.dart';
+import 'package:burger_blitz/service/user_service.dart';
 import 'package:flutter/material.dart';
 
 import '../components/my_button.dart';
@@ -50,7 +51,7 @@ class _HomePageState extends State<LoginPage> {
             ),
             SizedBox(height: 80),
             TextField1(
-              textLabel: 'Username',
+              textLabel: 'Email',
               controller: userNameController,
             ),
             SizedBox(height: 20),
@@ -82,7 +83,38 @@ class _HomePageState extends State<LoginPage> {
             MyButton(
               lableText: 'Sign In',
               onPressed: () {
-                Navigator.pushNamed(context, '/home');
+                Future<bool> flag =
+                    login(userNameController.text, passwordController.text);
+
+                flag.then((value) => print(value));
+                if (flag != true) {
+                  print('object');
+                  Navigator.pushNamed(context, '/home');
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: kTertiary,
+                        title: Text('Notification'),
+                        content: Text(
+                          'Invalid Credentials',
+                          style: TextStyle(
+                            fontFamily: 'Quicksand',
+                          ),
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/login');
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
               },
             ),
             Padding(
@@ -112,5 +144,20 @@ class _HomePageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  Future<bool> login(String email, String password) async {
+    if (email.isEmpty || password.isEmpty) {
+      return false;
+    }
+    dynamic loginResult = await UserService().login(email, password);
+    print(loginResult);
+    if (loginResult != null && loginResult is bool && loginResult) {
+      print('user logged in');
+      return true;
+    } else {
+      print('user not logged in');
+      return false;
+    }
   }
 }
