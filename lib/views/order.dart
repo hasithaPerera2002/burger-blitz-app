@@ -1,8 +1,11 @@
-// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable
+// ignore_for_file: use_key_in_widget_constructors, prefer_const_constructors, prefer_const_literals_to_create_immutables, must_be_immutable, avoid_print
 
 import 'package:burger_blitz/components/my_button.dart';
 import 'package:burger_blitz/const/colors.dart';
+import 'package:burger_blitz/const/userData.dart';
 import 'package:burger_blitz/model/burger.dart';
+import 'package:burger_blitz/model/order.dart';
+import 'package:burger_blitz/service/order_service.dart';
 import 'package:flutter/material.dart';
 
 class OrderPage extends StatefulWidget {
@@ -14,11 +17,27 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
-  int quantity = 1;
+  int quantity = 0;
   double total = 0;
 
   void setTotal() {
     total = quantity * widget.burger.price.toDouble();
+  }
+
+  Future<bool> addOrder() async {
+    try {
+      print(
+          kUserId + widget.burger.id + quantity.toString() + total.toString());
+      return await OrderService().saveOrder(Order(
+          userId: kUserId,
+          burgerId: widget.burger.id,
+          quantity: quantity,
+          price: total));
+    } catch (e) {
+      print(e);
+      print('error in order');
+      return false;
+    }
   }
 
   @override
@@ -26,7 +45,7 @@ class _OrderPageState extends State<OrderPage> {
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-          padding: const EdgeInsets.only(left: 50.0),
+          padding: const EdgeInsets.only(left: 75.0),
           child: Text(
             'Order Page',
             style: TextStyle(
@@ -40,7 +59,6 @@ class _OrderPageState extends State<OrderPage> {
         child: Column(
           children: <Widget>[
             SizedBox(height: 50),
-            //image hereee
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Hero(
@@ -221,27 +239,57 @@ class _OrderPageState extends State<OrderPage> {
             MyButton(
               lableText: "Order",
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      backgroundColor: kTertiary,
-                      title: Text('Notification'),
-                      content: Text(
-                        'Order Placed Successfully',
-                        style: TextStyle(
-                          fontFamily: 'Quicksand',
-                        ),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/home');
-                          },
-                          child: Text('OK'),
-                        ),
-                      ],
-                    );
+                addOrder().then(
+                  (value) {
+                    if (value == true) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: kTertiary,
+                            title: Text('Notification'),
+                            content: Text(
+                              'Order Placed Successfully',
+                              style: TextStyle(
+                                fontFamily: 'Quicksand',
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/home');
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            backgroundColor: kTertiary,
+                            title: Text('Notification'),
+                            content: Text(
+                              'Order Failed',
+                              style: TextStyle(
+                                fontFamily: 'Quicksand',
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
                   },
                 );
               },

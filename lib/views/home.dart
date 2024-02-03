@@ -15,13 +15,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Future<List<Burger>> _burgers;
+  late Future<List<Burger>> _burgers = Future.value([]);
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    // print('init state called');
+    print('init state called');
     loadBurgers();
   }
 
@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                 width: double.infinity,
                 child: FutureBuilder<List<Burger>>(
                   future: _burgers,
-                  builder: (context, snapshot) {
+                  builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
                         shrinkWrap: true,
@@ -78,10 +78,12 @@ class _HomePageState extends State<HomePage> {
                           );
                         },
                       );
-                    } else if (snapshot.hasError) {
-                      return Text('${snapshot.error}');
+                    } else {
+                      print('object');
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
                     }
-                    return const CircularProgressIndicator();
                   },
                 ),
               ),

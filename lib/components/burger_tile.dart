@@ -22,7 +22,7 @@ class _BurgerTileState extends State<BurgerTile> {
 
   void updateImageUrl() {
     String imagePathForUrl = widget.burger.image.replaceAll('\\', '/');
-    String newPort = "192.168.1.4:3000";
+    String newPort = "192.168.80.60:3000";
     setState(() {
       widget.burger.image =
           imagePathForUrl.replaceFirst("localhost:3000", newPort);

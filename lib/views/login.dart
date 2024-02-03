@@ -83,30 +83,51 @@ class _HomePageState extends State<LoginPage> {
             MyButton(
               lableText: 'Sign In',
               onPressed: () {
-                Future<bool> flag =
-                    login(userNameController.text, passwordController.text);
-
-                flag.then((value) => print(value));
-                if (flag != true) {
-                  print('object');
-                  Navigator.pushNamed(context, '/home');
-                } else {
-                  showDialog(
+                login(userNameController.text, passwordController.text)
+                    .then(
+                  (value) => {
+                    if (value == true)
+                      {Navigator.pushNamed(context, '/home')}
+                    else
+                      {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: kTertiary,
+                              title: Text('Notification'),
+                              content: Text(
+                                'Invalid Credentials',
+                                style: TextStyle(
+                                  fontFamily: 'Quicksand',
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/login');
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      },
+                  },
+                )
+                    .catchError((e) {
+                  print(e);
+                  return showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        backgroundColor: kTertiary,
-                        title: Text('Notification'),
-                        content: Text(
-                          'Invalid Credentials',
-                          style: TextStyle(
-                            fontFamily: 'Quicksand',
-                          ),
-                        ),
+                        title: Text('Error'),
+                        content: Text('An error occurred: $e'),
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/login');
+                              Navigator.pop(context);
                             },
                             child: Text('OK'),
                           ),
@@ -114,7 +135,7 @@ class _HomePageState extends State<LoginPage> {
                       );
                     },
                   );
-                }
+                });
               },
             ),
             Padding(

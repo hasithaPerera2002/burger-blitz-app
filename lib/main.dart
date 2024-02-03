@@ -22,7 +22,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Burger Blitz',
       darkTheme: ThemeData.light(),
-      initialRoute: '/home',
+      initialRoute: '/starter',
       routes: {
         '/login': (context) => LoginPage(),
         '/home': (context) => HomePage(),

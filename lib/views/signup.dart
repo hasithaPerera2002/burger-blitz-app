@@ -157,38 +157,65 @@ class _SignUpState extends State<SignUp> {
                     !secondNameErr &&
                     !emailErr &&
                     !passwordErr) {
-                  var flag = signUp(
-                      firstNameController.text,
-                      secondNameController.text,
-                      emailController.text,
-                      passwordController.text);
-                  if (flag != true) {
-                    Navigator.pushNamed(context, '/home');
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          backgroundColor: kTertiary,
-                          title: Text('Notification'),
-                          content: Text(
-                            'User already exists',
-                            style: TextStyle(
-                              fontFamily: 'Quicksand',
-                            ),
+                  signUp(firstNameController.text, secondNameController.text,
+                          emailController.text, passwordController.text)
+                      .then(
+                    (value) => {
+                      if (value == true)
+                        {
+                          print('user saved'),
+                          Navigator.pushNamed(context, '/home'),
+                        }
+                      else
+                        {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: kTertiary,
+                                title: Text('Notification'),
+                                content: Text(
+                                  'User already exists',
+                                  style: TextStyle(
+                                    fontFamily: 'Quicksand',
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(context, '/signUp');
+                                    },
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/signUp');
-                              },
-                              child: Text('OK'),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  }
+                        },
+                    },
+                  )
+                      .catchError(
+                    (e) {
+                      print(e);
+                      return showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Error'),
+                            content: Text('An error occurred: $e'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context); // Close the dialog
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  );
                 }
               },
             ),
