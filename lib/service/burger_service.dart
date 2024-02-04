@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 
 class BurgerService {
   Future<List<Burger>> getBurgers() async {
-    // print('burger service called');
     final response = await http.get(Uri.parse(
         'https://burger-shop-backend-hasitha-1.onrender.com/api/v1/burgers'));
 

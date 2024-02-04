@@ -26,16 +26,12 @@ class _OrderPageState extends State<OrderPage> {
 
   Future<bool> addOrder() async {
     try {
-      print(
-          kUserId + widget.burger.id + quantity.toString() + total.toString());
       return await OrderService().saveOrder(Order(
           userId: kUserId,
           burgerId: widget.burger.id,
           quantity: quantity,
           price: total));
     } catch (e) {
-      print(e);
-      print('error in order');
       return false;
     }
   }

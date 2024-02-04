@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 
 class OrderService {
   saveOrder(Order order) async {
-    print('saving order');
     if (order.userId.isEmpty ||
         order.burgerId.isEmpty ||
         order.quantity == 0 ||
@@ -33,14 +32,11 @@ class OrderService {
       );
 
       if (response.statusCode == 200) {
-        print('order saved');
         return true;
       } else {
-        print('order not saved');
         return false;
       }
     } catch (e) {
-      print(e.toString());
       return false;
     }
   }

@@ -17,16 +17,6 @@ class _BurgerTileState extends State<BurgerTile> {
   @override
   void initState() {
     super.initState();
-    updateImageUrl();
-  }
-
-  void updateImageUrl() {
-    String imagePathForUrl = widget.burger.image.replaceAll('\\', '/');
-    String newPort = "192.168.80.60:3000";
-    setState(() {
-      widget.burger.image =
-          imagePathForUrl.replaceFirst("localhost:3000", newPort);
-    });
   }
 
   @override
@@ -83,7 +73,6 @@ class _BurgerTileState extends State<BurgerTile> {
           ),
           child: Icon(Icons.arrow_forward_sharp),
           onPressed: () {
-            print('tapped');
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => OrderPage(widget.burger),

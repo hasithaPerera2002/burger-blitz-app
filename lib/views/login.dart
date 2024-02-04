@@ -18,6 +18,7 @@ class LoginPage extends StatefulWidget {
 class _HomePageState extends State<LoginPage> {
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isClicked = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,62 +84,67 @@ class _HomePageState extends State<LoginPage> {
             MyButton(
               lableText: 'Sign In',
               onPressed: () {
-                login(userNameController.text, passwordController.text)
-                    .then(
-                  (value) => {
-                    if (value == true)
-                      {Navigator.pushReplacementNamed(context, '/home')}
-                    else
-                      {
-                        print(value),
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor: kTertiary,
-                              title: Text('Notification'),
-                              content: Text(
-                                'Invalid Credentials',
-                                style: TextStyle(
-                                  fontFamily: 'Quicksand',
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(
-                                      context,
+                !isClicked
+                    ? {
+                        isClicked = true,
+                        login(userNameController.text, passwordController.text)
+                            .then(
+                          (value) => {
+                            if (value == true)
+                              {Navigator.pushReplacementNamed(context, '/home')}
+                            else
+                              {
+                                isClicked = false,
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      backgroundColor: kTertiary,
+                                      title: Text('Notification'),
+                                      content: Text(
+                                        'Invalid Credentials',
+                                        style: TextStyle(
+                                          fontFamily: 'Quicksand',
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(
+                                              context,
+                                            );
+                                          },
+                                          child: Text('OK'),
+                                        ),
+                                      ],
                                     );
                                   },
-                                  child: Text('OK'),
                                 ),
-                              ],
-                            );
+                              },
                           },
-                        ),
-                      },
-                  },
-                )
-                    .catchError((e) {
-                  print(e);
-                  return showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Error'),
-                        content: Text('An error occurred: $e'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
+                        )
+                            .catchError((e) {
+                          isClicked = false;
+                          return showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Error'),
+                                content: Text('An error occurred: $e'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              );
                             },
-                            child: Text('OK'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                });
+                          );
+                        }),
+                      }
+                    : {};
               },
             ),
             Padding(
@@ -175,12 +181,9 @@ class _HomePageState extends State<LoginPage> {
       return false;
     }
     dynamic loginResult = await UserService().login(email, password);
-    print(loginResult);
     if (loginResult != null && loginResult is bool && loginResult) {
-      print('user logged in');
       return true;
     } else {
-      print('user not logged in');
       return false;
     }
   }
