@@ -44,8 +44,9 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Padding(
-          padding: const EdgeInsets.only(left: 75.0),
+          padding: const EdgeInsets.only(left: 120.0),
           child: Text(
             'Order Page',
             style: TextStyle(
@@ -239,59 +240,81 @@ class _OrderPageState extends State<OrderPage> {
             MyButton(
               lableText: "Order",
               onPressed: () {
-                addOrder().then(
-                  (value) {
-                    if (value == true) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            backgroundColor: kTertiary,
-                            title: Text('Notification'),
-                            content: Text(
-                              'Order Placed Successfully',
-                              style: TextStyle(
-                                fontFamily: 'Quicksand',
-                              ),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/home');
+                quantity == 0
+                    ? {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Notification'),
+                              content: Text('Order has to be minimun 1'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        )
+                      }
+                    : {
+                        addOrder().then(
+                          (value) {
+                            if (value == true) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor: kTertiary,
+                                    title: Text('Notification'),
+                                    content: Text(
+                                      'Order Placed Successfully',
+                                      style: TextStyle(
+                                        fontFamily: 'Quicksand',
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pushNamed(context, '/home');
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  );
                                 },
-                                child: Text('OK'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            backgroundColor: kTertiary,
-                            title: Text('Notification'),
-                            content: Text(
-                              'Order Failed',
-                              style: TextStyle(
-                                fontFamily: 'Quicksand',
-                              ),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
+                              );
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor: kTertiary,
+                                    title: Text('Notification'),
+                                    content: Text(
+                                      'Order Failed',
+                                      style: TextStyle(
+                                        fontFamily: 'Quicksand',
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('OK'),
+                                      ),
+                                    ],
+                                  );
                                 },
-                                child: Text('OK'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    }
-                  },
-                );
+                              );
+                            }
+                          },
+                        ),
+                      };
               },
             ),
           ],

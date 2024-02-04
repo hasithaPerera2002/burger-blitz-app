@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Padding(
-          padding: const EdgeInsets.only(left: 50.0),
+          padding: const EdgeInsets.only(left: 120.0),
           child: Text(
             'Burger Blitz',
             style: TextStyle(

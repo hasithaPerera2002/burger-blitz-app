@@ -25,6 +25,8 @@ class _SignUpState extends State<SignUp> {
   bool secondNameErr = false;
   bool passwordErr = false;
   bool emailErr = false;
+
+  bool isLoading = false;
   @override
   void dispose() {
     super.dispose();
@@ -65,7 +67,7 @@ class _SignUpState extends State<SignUp> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50.0),
                   child: Text(
-                    firstNameErr ? 'Please enter your first name' : '',
+                    firstNameErr ? 'Please enter valid name' : '',
                     style: TextStyle(color: Colors.red),
                   ),
                 ),
@@ -82,7 +84,7 @@ class _SignUpState extends State<SignUp> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50.0),
                   child: Text(
-                    secondNameErr ? 'Please enter your second name' : '',
+                    secondNameErr ? 'Please enter valid second name' : '',
                     style: TextStyle(color: Colors.red),
                   ),
                 ),
@@ -99,7 +101,7 @@ class _SignUpState extends State<SignUp> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50.0),
                   child: Text(
-                    emailErr ? 'Please enter your Email' : '',
+                    emailErr ? 'Please enter valid Email' : '',
                     style: TextStyle(color: Colors.red),
                   ),
                 ),
@@ -116,7 +118,7 @@ class _SignUpState extends State<SignUp> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50.0),
                   child: Text(
-                    passwordErr ? 'Please enter your password' : '',
+                    passwordErr ? 'Please enter valid password' : '',
                     style: TextStyle(color: Colors.red),
                   ),
                 ),
@@ -139,28 +141,22 @@ class _SignUpState extends State<SignUp> {
             MyButton(
               lableText: 'Agree & Continue ',
               onPressed: () {
-                setState(() {
-                  firstNameController.text.isEmpty
-                      ? firstNameErr = true
-                      : firstNameErr = false;
-                  secondNameController.text.isEmpty
-                      ? secondNameErr = true
-                      : secondNameErr = false;
-                  emailController.text.isEmpty
-                      ? emailErr = true
-                      : emailErr = false;
-                  passwordController.text.isEmpty
-                      ? passwordErr = true
-                      : passwordErr = false;
-                });
-                if (!firstNameErr &&
-                    !secondNameErr &&
-                    !emailErr &&
-                    !passwordErr) {
+                print("clicked");
+                print(validate());
+                if (validate()) {
+                  print("valid");
+                  setState(() {
+                    isLoading = true;
+                  });
                   signUp(firstNameController.text, secondNameController.text,
                           emailController.text, passwordController.text)
                       .then(
                     (value) => {
+                      setState(
+                        () {
+                          isLoading = false;
+                        },
+                      ),
                       if (value == true)
                         {
                           print('user saved'),
@@ -183,7 +179,7 @@ class _SignUpState extends State<SignUp> {
                                 actions: [
                                   TextButton(
                                     onPressed: () {
-                                      Navigator.pushNamed(context, '/signUp');
+                                      Navigator.pop(context);
                                     },
                                     child: Text('OK'),
                                   ),
@@ -260,5 +256,24 @@ class _SignUpState extends State<SignUp> {
       print('user not saved');
       return false;
     }
+  }
+
+  bool validate() {
+    RegExp emailRegExp =
+        RegExp(r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$');
+
+    RegExp validRegExp = RegExp(r'^[A-Za-z0-9]{3,}$');
+    bool fName = validRegExp.hasMatch(firstNameController.text);
+    bool sName = validRegExp.hasMatch(secondNameController.text);
+    bool pw = validRegExp.hasMatch(passwordController.text);
+    bool eml = emailRegExp.hasMatch(emailController.text);
+    setState(() {
+      firstNameErr = !fName;
+      secondNameErr = !sName;
+      emailErr = !eml;
+      passwordErr = !pw;
+    });
+
+    return fName && sName && pw && eml;
   }
 }

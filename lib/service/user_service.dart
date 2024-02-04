@@ -10,7 +10,8 @@ class UserService {
   saveUser(User user) async {
     print('saving user');
     try {
-      final url = Uri.parse('http://192.168.1.4:3000/api/v1/users');
+      final url = Uri.parse(
+          'https://burger-shop-backend-hasitha-1.onrender.com/api/v1/users');
 
       final jsonData = jsonEncode({
         'userName': user.fname,

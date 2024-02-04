@@ -21,7 +21,7 @@ class MyButton extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         height: 70,
-        child: TextButton(
+        child: ElevatedButton(
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all<Color>(kTertiary),
             backgroundColor: MaterialStateProperty.all<Color>(kPrimary),
