@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:burger_blitz/model/burger.dart';
 import 'package:burger_blitz/views/login.dart';
 import 'package:burger_blitz/views/starter.dart';
 import 'package:flutter/material.dart';

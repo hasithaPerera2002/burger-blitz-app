@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, unrelated_type_equality_checks, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, unrelated_type_equality_checks, use_build_context_synchronously, invalid_return_type_for_catch_error
 
 import 'package:burger_blitz/components/password_text_filed.dart';
 import 'package:burger_blitz/components/textField.dart';
@@ -87,7 +87,7 @@ class _HomePageState extends State<LoginPage> {
                     .then(
                   (value) => {
                     if (value == true)
-                      {Navigator.pushNamed(context, '/home')}
+                      {Navigator.pushReplacementNamed(context, '/home')}
                     else
                       {
                         print(value),

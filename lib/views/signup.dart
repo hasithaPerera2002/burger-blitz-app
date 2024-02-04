@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, library_private_types_in_public_api, prefer_const_constructors_in_immutables, avoid_print
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, library_private_types_in_public_api, prefer_const_constructors_in_immutables, avoid_print, invalid_return_type_for_catch_error
 
 import 'package:burger_blitz/components/my_button.dart';
 import 'package:burger_blitz/components/password_text_filed.dart';
@@ -164,7 +164,7 @@ class _SignUpState extends State<SignUp> {
                       if (value == true)
                         {
                           print('user saved'),
-                          Navigator.pushNamed(context, '/home'),
+                          Navigator.pushReplacementNamed(context, '/home'),
                         }
                       else
                         {
@@ -206,7 +206,7 @@ class _SignUpState extends State<SignUp> {
                             actions: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.pop(context); // Close the dialog
+                                  Navigator.pop(context);
                                 },
                                 child: Text('OK'),
                               ),
