@@ -68,7 +68,17 @@ class _HomePageState extends State<HomePage> {
                 child: FutureBuilder<List<Burger>>(
                   future: _burgers,
                   builder: (context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: kPrimary,
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Error loading burgers'),
+                      );
+                    } else if (snapshot.hasData) {
                       return ListView.builder(
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
@@ -79,9 +89,16 @@ class _HomePageState extends State<HomePage> {
                         },
                       );
                     } else {
-                      print('object');
                       return Center(
-                        child: CircularProgressIndicator(),
+                        child: Text(
+                          'No burgers found',
+                          style: TextStyle(
+                            color: kSecondary,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            fontFamily: 'Quicksand',
+                          ),
+                        ),
                       );
                     }
                   },

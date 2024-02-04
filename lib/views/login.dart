@@ -90,6 +90,7 @@ class _HomePageState extends State<LoginPage> {
                       {Navigator.pushNamed(context, '/home')}
                     else
                       {
+                        print(value),
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -105,7 +106,9 @@ class _HomePageState extends State<LoginPage> {
                               actions: [
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/login');
+                                    Navigator.pop(
+                                      context,
+                                    );
                                   },
                                   child: Text('OK'),
                                 ),
